@@ -44,19 +44,19 @@ services:
 
   frontend-test:
     build:
-      context: frontend
-      dockerfile: ../Dockerfile.frontend
+      context: frontend/host
+      dockerfile: ../../Dockerfile.frontend-host
     command: yarn test:microfrontend
     restart: 'no'
     environment:
           CI: true
 
-  frontend:
+  frontend-host:
     build:
-      context: frontend
-      dockerfile: ../Dockerfile.frontend
+      context: frontend/host
+      dockerfile: ../../Dockerfile.frontend-host
     ports:
-      - 3000:3000
+      - 4000:4000
     depends_on:
       backend:
         condition: service_healthy
