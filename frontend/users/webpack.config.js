@@ -9,7 +9,7 @@ const printCompilationMessage = require('./compilation.config.js');
 
 module.exports = (_, argv) => ({
   output: {
-    publicPath: "http://localhost:4000/",
+    publicPath: "http://localhost:4001/",
   },
 
   resolve: {
@@ -17,7 +17,7 @@ module.exports = (_, argv) => ({
   },
 
   devServer: {
-    port: 4000,
+    port: 4001,
     historyApiFallback: true,
     watchFiles: [path.resolve(__dirname, 'src')],
     onListening: function (devServer) {
@@ -66,12 +66,14 @@ module.exports = (_, argv) => ({
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "host",
+      name: "users",
       filename: "remoteEntry.js",
-      remotes: {
-        'users': 'users@http://localhost:4001/remoteEntry.js',
+      remotes: {},
+      exposes: {
+        './Header': './src/components/Header.js',
+        './Login': './src/components/Login.js',
+        './Register': './src/components/Register.js'
       },
-      exposes: {},
       shared: {
         ...deps,
         react: {
@@ -85,7 +87,7 @@ module.exports = (_, argv) => ({
       },
     }),
     new HtmlWebPackPlugin({
-      template: "./public/index.html",
+      template: "./src/index.html",
     }),
     new Dotenv()
   ],

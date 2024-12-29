@@ -1,9 +1,20 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, useHistory } from 'react-router-dom';
 import logoPath from '../images/logo.svg';
 
+
 // В корневом компоненте App описаны обработчики: onRegister, onLogin и onSignOut. Эти обработчики переданы в соответствующие компоненты: Register.js, Login.js, Header.js
-function Header ({onSignOut, email }) {
+function Header ({ email, setIsLoggedIn }) {
+  const history = useHistory();
+  
+  function onSignOut() {
+    // при вызове обработчика onSignOut происходит удаление jwt
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+    // После успешного вызова обработчика onSignOut происходит редирект на /signin
+    history.push("/signin");
+  }
+
   function handleSignOut(){
     onSignOut();
   }

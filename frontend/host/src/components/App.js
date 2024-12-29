@@ -1,6 +1,7 @@
-import React from "react";
+//import React from "react";
+import React, { lazy, Suspense }  from "react";
 import { Route, useHistory, Switch } from "react-router-dom";
-import Header from "./Header";
+//import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
@@ -10,11 +11,29 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
-import Register from "./Register";
-import Login from "./Login";
+//import Register from "./Register";
+//import Login from "./Login";
 import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute";
-import * as auth from "../utils/auth.js";
+//import * as auth from "../utils/auth.js";
+
+const Login = lazy(() => import('users/Login')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+);
+
+const Header = lazy(() => import('users/Header')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+);
+
+const Register = lazy(() => import('users/Register')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+);
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -35,7 +54,7 @@ function App() {
   //В компоненты добавлены новые стейт-переменные: email — в компонент App
   const [email, setEmail] = React.useState("");
 
-  const history = useHistory();
+//  const history = useHistory();
 
   // Запрос к API за информацией о пользователе и массиве карточек выполняется единожды, при монтировании.
   React.useEffect(() => {
@@ -47,7 +66,7 @@ function App() {
       })
       .catch((err) => console.log(err));
   }, []);
-
+/*
   // при монтировании App описан эффект, проверяющий наличие токена и его валидности
   React.useEffect(() => {
     const token = localStorage.getItem("jwt");
@@ -65,7 +84,7 @@ function App() {
         });
     }
   }, [history]);
-
+*/
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
@@ -140,7 +159,7 @@ function App() {
       })
       .catch((err) => console.log(err));
   }
-
+/*
   function onRegister({ email, password }) {
     auth
       .register(email, password)
@@ -176,12 +195,14 @@ function App() {
     // После успешного вызова обработчика onSignOut происходит редирект на /signin
     history.push("/signin");
   }
-
+*/
   return (
     // В компонент App внедрён контекст через CurrentUserContext.Provider
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__content">
-        <Header email={email} onSignOut={onSignOut} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Header email={email} setIsLoggedIn={setIsLoggedIn} />
+        </Suspense>
         <Switch>
           <ProtectedRoute
             exact
@@ -197,10 +218,14 @@ function App() {
             loggedIn={isLoggedIn}
           />
           <Route path="/signup">
-            <Register onRegister={onRegister} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Register setTooltipStatus={setTooltipStatus} setIsInfoToolTipOpen={setIsInfoToolTipOpen} />
+            </Suspense>
           </Route>
           <Route path="/signin">
-            <Login onLogin={onLogin} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Login setTooltipStatus={setTooltipStatus} setIsInfoToolTipOpen={setIsInfoToolTipOpen} setIsLoggedIn={setIsLoggedIn}/>
+            </Suspense>
           </Route>
         </Switch>
         <Footer />
@@ -221,11 +246,13 @@ function App() {
           onClose={closeAllPopups}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-        <InfoTooltip
-          isOpen={isInfoToolTipOpen}
-          onClose={closeAllPopups}
-          status={tooltipStatus}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <InfoTooltip
+            isOpen={isInfoToolTipOpen}
+            onClose={closeAllPopups}
+            status={tooltipStatus}
+          />
+        </Suspense>
       </div>
     </CurrentUserContext.Provider>
   );

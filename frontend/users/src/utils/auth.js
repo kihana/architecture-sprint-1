@@ -5,6 +5,8 @@ const getResponse = (res) => {
 }
 
 export const register = (email, password) => {
+  console.log(email);
+  console.log(password);
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {

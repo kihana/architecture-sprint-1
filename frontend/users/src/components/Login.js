@@ -1,10 +1,45 @@
 import React from 'react';
-
+import { useHistory} from "react-router-dom";
 import '../blocks/login/login.css';
+import * as auth from "../utils/auth.js";
 
-function Login ({ onLogin }){
+function Login ({setTooltipStatus, setIsInfoToolTipOpen, setIsLoggedIn}){
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const history = useHistory();
+
+  function onLogin({ email, password }) {
+    auth
+      .login(email, password)
+      .then((res) => {
+        setIsLoggedIn(true);
+        setEmail(email);
+        history.push("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        setTooltipStatus("fail");
+        setIsInfoToolTipOpen(true);
+      });
+  }
+
+  // при монтировании App описан эффект, проверяющий наличие токена и его валидности
+  React.useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      auth
+        .checkToken(token)
+        .then((res) => {
+          setEmail(res.data.email);
+          setIsLoggedIn(true);
+          history.push("/");
+        })
+        .catch((err) => {
+          localStorage.removeItem("jwt");
+          console.log(err);
+        });
+    }
+  }, [history]);
 
   function handleSubmit(e){
     e.preventDefault();

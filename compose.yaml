@@ -42,21 +42,21 @@ services:
       retries: 5 
       test: node healthcheck.js
 
-  frontend-test:
-    build:
-      context: frontend/host
-      dockerfile: ../../Dockerfile.frontend-host
-    command: yarn test:microfrontend
-    restart: 'no'
-    environment:
-          CI: true
+  #frontend-test:
+  #  build:
+  #    context: frontend/host
+  #    dockerfile: ../../Dockerfile.frontend-host
+  #  command: yarn test:microfrontend
+  #  restart: 'no'
+  #  environment:
+  #        CI: true
 
-  frontend-host:
-    build:
-      context: frontend/host
-      dockerfile: ../../Dockerfile.frontend-host
-    ports:
-      - 4000:4000
-    depends_on:
-      backend:
-        condition: service_healthy
+  #frontend-host:
+  #  build:
+  #    context: frontend/host
+  #    dockerfile: ../../Dockerfile.frontend-host
+  #  ports:
+  #    - 4000:4000
+  #  depends_on:
+  #    backend:
+  #      condition: service_healthy
