@@ -9,7 +9,7 @@ const printCompilationMessage = require('./compilation.config.js');
 
 module.exports = (_, argv) => ({
   output: {
-    publicPath: "http://localhost:4000/",
+    publicPath: "http://localhost:4004/",
   },
 
   resolve: {
@@ -17,7 +17,7 @@ module.exports = (_, argv) => ({
   },
 
   devServer: {
-    port: 4000,
+    port: 4004,
     historyApiFallback: true,
     watchFiles: [path.resolve(__dirname, 'src')],
     onListening: function (devServer) {
@@ -57,24 +57,20 @@ module.exports = (_, argv) => ({
           loader: "babel-loader",
         },
       },
-      {
-        test: /\.svg$/,
-        type: 'asset/resource', // Это встроенная возможность Webpack 5
-      },
     ],
   },
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "host",
+      name: "profile",
       filename: "remoteEntry.js",
       remotes: {
-        'users': 'users@http://localhost:4001/remoteEntry.js',
-        'cards': 'cards@http://localhost:4002/remoteEntry.js',
-        'shared': 'shared@http://localhost:4003/remoteEntry.js',
-        'profile': 'profile@http://localhost:4004/remoteEntry.js'
+        'shared': 'shared@http://localhost:4003/remoteEntry.js'
       },
-      exposes: {},
+      exposes: {
+        './EditAvatarPopup': './src/components/EditAvatarPopup.js',
+        './EditProfilePopup': './src/components/EditProfilePopup.js'
+      },
       shared: {
         ...deps,
         react: {
@@ -89,7 +85,7 @@ module.exports = (_, argv) => ({
       },
     }),
     new HtmlWebPackPlugin({
-      template: "./public/index.html",
+      template: "./src/index.html",
     }),
     new Dotenv()
   ],

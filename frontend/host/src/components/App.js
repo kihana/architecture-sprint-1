@@ -3,10 +3,20 @@ import { Route, useHistory, Switch } from "react-router-dom";
 import Main from "./Main";
 import Footer from "./Footer";
 import api from "../utils/api";
-import EditProfilePopup from "./EditProfilePopup";
-import EditAvatarPopup from "./EditAvatarPopup";
 import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute";
+
+const EditProfilePopup = lazy(() => import('profile/EditProfilePopup')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+);
+
+const EditAvatarPopup = lazy(() => import('profile/EditAvatarPopup')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+);
 
 const Login = lazy(() => import('users/Login')
 //.catch(() => {
@@ -184,11 +194,13 @@ function App() {
           </Route>
         </Switch>
         <Footer />
-        <EditProfilePopup
-          isOpen={isEditProfilePopupOpen}
-          onUpdateUser={handleUpdateUser}
-          onClose={closeAllPopups}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            onUpdateUser={handleUpdateUser}
+            onClose={closeAllPopups}
+          />
+        </Suspense>
         <Suspense fallback={<div>Loading...</div>}>
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
@@ -199,11 +211,13 @@ function App() {
         <Suspense fallback={<div>Loading...</div>}>
           <PopupWithForm title="Вы уверены?" name="remove-card" buttonText="Да" />
         </Suspense>
-        <EditAvatarPopup
-          isOpen={isEditAvatarPopupOpen}
-          onUpdateAvatar={handleUpdateAvatar}
-          onClose={closeAllPopups}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onUpdateAvatar={handleUpdateAvatar}
+            onClose={closeAllPopups}
+          />
+        </Suspense>
         <Suspense fallback={<div>Loading...</div>}>
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         </Suspense>
