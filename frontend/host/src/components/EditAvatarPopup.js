@@ -1,5 +1,11 @@
-import React from 'react';
-import PopupWithForm from './PopupWithForm';
+import React, { lazy, Suspense }  from "react";
+//import PopupWithForm from './PopupWithForm';
+
+const PopupWithForm = lazy(() => import('shared/PopupWithForm')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+);
 
 function EditAvatarPopup({ isOpen, onUpdateAvatar, onClose }) {
   const inputRef = React.useRef();
@@ -13,6 +19,7 @@ function EditAvatarPopup({ isOpen, onUpdateAvatar, onClose }) {
   }
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <PopupWithForm
       isOpen={isOpen} onSubmit={handleSubmit} onClose={onClose} title="Обновить аватар" name="edit-avatar"
     >
@@ -24,6 +31,7 @@ function EditAvatarPopup({ isOpen, onUpdateAvatar, onClose }) {
         <span className="popup__error" id="owner-avatar-error"></span>
       </label>
     </PopupWithForm>
+    </Suspense>
   );
 }
 

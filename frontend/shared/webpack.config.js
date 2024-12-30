@@ -9,7 +9,7 @@ const printCompilationMessage = require('./compilation.config.js');
 
 module.exports = (_, argv) => ({
   output: {
-    publicPath: "http://localhost:4000/",
+    publicPath: "http://localhost:4003/",
   },
 
   resolve: {
@@ -17,7 +17,7 @@ module.exports = (_, argv) => ({
   },
 
   devServer: {
-    port: 4000,
+    port: 4003,
     historyApiFallback: true,
     watchFiles: [path.resolve(__dirname, 'src')],
     onListening: function (devServer) {
@@ -57,23 +57,18 @@ module.exports = (_, argv) => ({
           loader: "babel-loader",
         },
       },
-      {
-        test: /\.svg$/,
-        type: 'asset/resource', // Это встроенная возможность Webpack 5
-      },
     ],
   },
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "host",
+      name: "shared",
       filename: "remoteEntry.js",
-      remotes: {
-        'users': 'users@http://localhost:4001/remoteEntry.js',
-        'cards': 'cards@http://localhost:4002/remoteEntry.js',
-        'shared': 'shared@http://localhost:4003/remoteEntry.js'
+      remotes: {},
+      exposes: {
+        './PopupWithForm': './src/components/PopupWithForm.js',
+        './CurrentUserContext': './src/contexts/CurrentUserContext.js',
       },
-      exposes: {},
       shared: {
         ...deps,
         react: {
@@ -88,7 +83,7 @@ module.exports = (_, argv) => ({
       },
     }),
     new HtmlWebPackPlugin({
-      template: "./public/index.html",
+      template: "./src/index.html",
     }),
     new Dotenv()
   ],

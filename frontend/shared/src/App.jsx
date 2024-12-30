@@ -5,7 +5,7 @@ import "./index.css";
 
 const App = () => (
   <div className="container">
-    <div>Name: users</div>
+    <div>Name: shared</div>
     <div>Framework: react</div>
     <div>Language: JavaScript</div>
     <div>CSS: Empty CSS</div>

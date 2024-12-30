@@ -1,5 +1,12 @@
-import React from 'react';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import React, { lazy }  from "react";
+
+//const CurrentUserContext = lazy(() => import('shared/CurrentUserContext')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+//);
+
+import CurrentUserContext from 'shared/CurrentUserContext';
 
 function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const cardStyle = { backgroundImage: `url(${card.link})` };

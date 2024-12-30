@@ -1,6 +1,20 @@
-import React from 'react';
-import PopupWithForm from './PopupWithForm';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import React, { lazy, Suspense }  from "react";
+//import PopupWithForm from './PopupWithForm';
+//import { CurrentUserContext } from '../contexts/CurrentUserContext';
+
+const PopupWithForm = lazy(() => import('shared/PopupWithForm')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+);
+
+//const CurrentUserContext = lazy(() => import('shared/CurrentUserContext')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+//);
+
+import CurrentUserContext from 'shared/CurrentUserContext';
 
 function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
   const [name, setName] = React.useState('');
@@ -33,6 +47,7 @@ function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
   }
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <PopupWithForm
       isOpen={isOpen} onSubmit={handleSubmit} onClose={onClose} title="Редактировать профиль" name="edit"
     >
@@ -51,6 +66,7 @@ function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
         <span className="popup__error" id="owner-description-error"></span>
       </label>
     </PopupWithForm>
+    </Suspense>
   );
 }
 

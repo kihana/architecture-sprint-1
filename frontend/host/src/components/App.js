@@ -2,13 +2,13 @@ import React, { lazy, Suspense }  from "react";
 import { Route, useHistory, Switch } from "react-router-dom";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
-import ImagePopup from "./ImagePopup";
+//import PopupWithForm from "./PopupWithForm";
+//import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+//import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
-import AddPlacePopup from "./AddPlacePopup";
+//import AddPlacePopup from "./AddPlacePopup";
 import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -29,6 +29,33 @@ const Register = lazy(() => import('users/Register')
 //  return { default: () => <div className='error'>Component is not available!</div> };
 // })
 );
+
+const PopupWithForm = lazy(() => import('shared/PopupWithForm')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+);
+
+const ImagePopup = lazy(() => import('cards/ImagePopup')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+);
+
+const AddPlacePopup = lazy(() => import('cards/AddPlacePopup')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+);
+
+//const CurrentUserContext = lazy(() => import('shared/CurrentUserContext')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+//);
+
+import CurrentUserContext from 'shared/CurrentUserContext';
+
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -173,23 +200,29 @@ function App() {
           onUpdateUser={handleUpdateUser}
           onClose={closeAllPopups}
         />
-        <AddPlacePopup
-          isOpen={isAddPlacePopupOpen}
-          onAddPlace={handleAddPlaceSubmit}
-          onClose={closeAllPopups}
-        />
-        <PopupWithForm title="Вы уверены?" name="remove-card" buttonText="Да" />
+        <Suspense fallback={<div>Loading...</div>}>
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onAddPlace={handleAddPlaceSubmit}
+            onClose={closeAllPopups}
+          />
+        </Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
+          <PopupWithForm title="Вы уверены?" name="remove-card" buttonText="Да" />
+        </Suspense>
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onUpdateAvatar={handleUpdateAvatar}
           onClose={closeAllPopups}
         />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-          <InfoTooltip
-            isOpen={isInfoToolTipOpen}
-            onClose={closeAllPopups}
-            status={tooltipStatus}
-          />
+        <Suspense fallback={<div>Loading...</div>}>
+          <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+        </Suspense>
+        <InfoTooltip
+          isOpen={isInfoToolTipOpen}
+          onClose={closeAllPopups}
+          status={tooltipStatus}
+        />
       </div>
     </CurrentUserContext.Provider>
   );

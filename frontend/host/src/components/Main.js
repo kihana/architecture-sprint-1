@@ -1,6 +1,20 @@
-import React from 'react';
-import Card from './Card';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import React, { lazy, Suspense }  from "react";
+//import Card from './Card';
+//import { CurrentUserContext } from '../contexts/CurrentUserContext';
+
+const Card = lazy(() => import('cards/Card')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+);
+
+//const CurrentUserContext = lazy(() => import('shared/CurrentUserContext')
+//.catch(() => {
+//  return { default: () => <div className='error'>Component is not available!</div> };
+// })
+//);
+
+import CurrentUserContext from 'shared/CurrentUserContext';
 
 function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = React.useContext(CurrentUserContext);
@@ -20,15 +34,17 @@ function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onC
       </section>
       <section className="places page__section">
         <ul className="places__list">
-          {cards.map((card) => (
-            <Card
-              key={card._id}
-              card={card}
-              onCardClick={onCardClick}
-              onCardLike={onCardLike}
-              onCardDelete={onCardDelete}
-            />
-          ))}
+          <Suspense fallback={<div>Loading...</div>}>
+            {cards.map((card) => (
+              <Card
+                key={card._id}
+                card={card}
+                onCardClick={onCardClick}
+                onCardLike={onCardLike}
+                onCardDelete={onCardDelete}
+              />
+            ))}
+          </Suspense>
         </ul>
       </section>
     </main>
