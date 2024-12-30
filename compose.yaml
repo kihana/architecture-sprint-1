@@ -60,6 +60,12 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+    healthcheck:
+      interval: 10s
+      timeout: 2s 
+      start_period: 15s 
+      retries: 5 
+      test: node healthcheck.js
 
   frontend-users:
     build:
@@ -72,6 +78,12 @@ services:
         condition: service_healthy
       backend:
         condition: service_healthy
+    healthcheck:
+      interval: 10s
+      timeout: 2s 
+      start_period: 15s 
+      retries: 5 
+      test: node healthcheck.js
 
   frontend-cards:
     build:
@@ -84,6 +96,12 @@ services:
         condition: service_healthy
       backend:
         condition: service_healthy
+    healthcheck:
+      interval: 10s
+      timeout: 2s 
+      start_period: 15s 
+      retries: 5 
+      test: node healthcheck.js
 
   frontend-profile:
     build:
@@ -96,7 +114,13 @@ services:
         condition: service_healthy
       backend:
         condition: service_healthy
-
+    healthcheck:
+      interval: 10s
+      timeout: 2s 
+      start_period: 15s 
+      retries: 5 
+      test: node healthcheck.js
+      
   frontend-host:
     build:
       context: frontend/host
