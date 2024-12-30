@@ -1,18 +1,10 @@
 import React, { lazy, Suspense }  from "react";
-//import Card from './Card';
-//import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 const Card = lazy(() => import('cards/Card')
 //.catch(() => {
 //  return { default: () => <div className='error'>Component is not available!</div> };
 // })
 );
-
-//const CurrentUserContext = lazy(() => import('shared/CurrentUserContext')
-//.catch(() => {
-//  return { default: () => <div className='error'>Component is not available!</div> };
-// })
-//);
 
 import CurrentUserContext from 'shared/CurrentUserContext';
 

@@ -2,13 +2,9 @@ import React, { lazy, Suspense }  from "react";
 import { Route, useHistory, Switch } from "react-router-dom";
 import Main from "./Main";
 import Footer from "./Footer";
-//import PopupWithForm from "./PopupWithForm";
-//import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
-//import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
-//import AddPlacePopup from "./AddPlacePopup";
 import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -48,14 +44,7 @@ const AddPlacePopup = lazy(() => import('cards/AddPlacePopup')
 // })
 );
 
-//const CurrentUserContext = lazy(() => import('shared/CurrentUserContext')
-//.catch(() => {
-//  return { default: () => <div className='error'>Component is not available!</div> };
-// })
-//);
-
 import CurrentUserContext from 'shared/CurrentUserContext';
-
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =

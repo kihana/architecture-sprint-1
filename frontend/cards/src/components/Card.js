@@ -1,11 +1,4 @@
 import React, { lazy }  from "react";
-
-//const CurrentUserContext = lazy(() => import('shared/CurrentUserContext')
-//.catch(() => {
-//  return { default: () => <div className='error'>Component is not available!</div> };
-// })
-//);
-
 import CurrentUserContext from 'shared/CurrentUserContext';
 
 function Card({ card, onCardClick, onCardLike, onCardDelete }) {

@@ -1,18 +1,10 @@
 import React, { lazy, Suspense }  from "react";
-//import PopupWithForm from './PopupWithForm';
-//import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 const PopupWithForm = lazy(() => import('shared/PopupWithForm')
 //.catch(() => {
 //  return { default: () => <div className='error'>Component is not available!</div> };
 // })
 );
-
-//const CurrentUserContext = lazy(() => import('shared/CurrentUserContext')
-//.catch(() => {
-//  return { default: () => <div className='error'>Component is not available!</div> };
-// })
-//);
 
 import CurrentUserContext from 'shared/CurrentUserContext';
 

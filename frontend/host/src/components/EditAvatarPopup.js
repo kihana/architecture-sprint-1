@@ -1,5 +1,4 @@
 import React, { lazy, Suspense }  from "react";
-//import PopupWithForm from './PopupWithForm';
 
 const PopupWithForm = lazy(() => import('shared/PopupWithForm')
 //.catch(() => {
