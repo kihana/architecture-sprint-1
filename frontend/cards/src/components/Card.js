@@ -1,6 +1,8 @@
 import React, { lazy }  from "react";
 import CurrentUserContext from 'shared/CurrentUserContext';
 
+import "../index.css";
+
 function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const cardStyle = { backgroundImage: `url(${card.link})` };
 

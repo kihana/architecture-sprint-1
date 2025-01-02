@@ -1,5 +1,7 @@
 import React, { lazy, Suspense }  from "react";
 
+import "../index.css";
+
 const PopupWithForm = lazy(() => import('shared/PopupWithForm')
 //.catch(() => {
 //  return { default: () => <div className='error'>Component is not available!</div> };

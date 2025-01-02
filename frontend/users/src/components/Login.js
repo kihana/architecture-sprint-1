@@ -3,6 +3,8 @@ import { useHistory} from "react-router-dom";
 import '../blocks/login/login.css';
 import * as auth from "../utils/auth.js";
 
+import "../index.css";
+
 function Login ({setTooltipStatus, setIsInfoToolTipOpen, setIsLoggedIn}){
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');

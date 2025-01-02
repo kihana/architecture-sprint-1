@@ -1,5 +1,7 @@
 import React from 'react';
 
+import "../index.css";
+
 function ImagePopup({ card, onClose }) {
   return (
     <div className={`popup popup_type_image ${card ? 'popup_is-opened' : ''}`}>
