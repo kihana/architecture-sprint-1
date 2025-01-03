@@ -70,7 +70,8 @@ module.exports = (_, argv) => ({
       exposes: {
         './AddPlacePopup': './src/components/AddPlacePopup.js',
         './Card': './src/components/Card.js',
-        './ImagePopup': './src/components/ImagePopup.js'
+        './ImagePopup': './src/components/ImagePopup.js',
+        './api': './src/utils/api.js'
       },
       shared: {
         ...deps,

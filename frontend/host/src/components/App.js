@@ -54,6 +54,8 @@ const AddPlacePopup = lazy(() => import('cards/AddPlacePopup')
 // })
 );
 
+import CardsApi from 'cards/api';
+import ProfileApi from 'profile/api';
 import CurrentUserContext from 'shared/CurrentUserContext';
 
 function App() {
@@ -111,7 +113,7 @@ function App() {
   }
 
   function handleUpdateUser(userUpdate) {
-    api
+    ProfileApi
       .setUserInfo(userUpdate)
       .then((newUserData) => {
         setCurrentUser(newUserData);
@@ -121,7 +123,7 @@ function App() {
   }
 
   function handleUpdateAvatar(avatarUpdate) {
-    api
+    ProfileApi
       .setUserAvatar(avatarUpdate)
       .then((newUserData) => {
         setCurrentUser(newUserData);
@@ -132,7 +134,7 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    api
+    CardsApi
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((cards) =>
@@ -143,7 +145,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api
+    CardsApi
       .removeCard(card._id)
       .then(() => {
         setCards((cards) => cards.filter((c) => c._id !== card._id));
@@ -152,7 +154,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(newCard) {
-    api
+    CardsApi
       .addCard(newCard)
       .then((newCardFull) => {
         setCards([newCardFull, ...cards]);
