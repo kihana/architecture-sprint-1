@@ -26,3 +26,5 @@
 - стили: profile
 
 **shared** - содержит общий компонент PopupWithForm и контекст CurrentUserContext. Они используются в users, profile, cards, host.
+
+Ссылка на задание 2: https://github.com/kihana/architecture-sprint-1/blob/sprint_1/sprint1_task2.drawio
