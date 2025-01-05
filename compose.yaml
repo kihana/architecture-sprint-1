@@ -42,21 +42,99 @@ services:
       retries: 5 
       test: node healthcheck.js
 
-  #frontend-test:
-  #  build:
-  #    context: frontend/host
-  #    dockerfile: ../../Dockerfile.frontend-host
-  #  command: yarn test:microfrontend
-  #  restart: 'no'
-  #  environment:
-  #        CI: true
+  frontend-test:
+    build:
+      context: frontend/host
+      dockerfile: ../../Dockerfile.frontend-host
+    command: yarn test:microfrontend
+    restart: 'no'
+    environment:
+          CI: true
 
-  #frontend-host:
-  #  build:
-  #    context: frontend/host
-  #    dockerfile: ../../Dockerfile.frontend-host
-  #  ports:
-  #    - 4000:4000
-  #  depends_on:
-  #    backend:
-  #      condition: service_healthy
+  frontend-shared:
+    build:
+      context: frontend/shared
+      dockerfile: ../../Dockerfile.frontend-shared
+    ports:
+      - 4003:4003
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      interval: 10s
+      timeout: 2s 
+      start_period: 15s 
+      retries: 5 
+      test: node healthcheck.js
+
+  frontend-users:
+    build:
+      context: frontend/users
+      dockerfile: ../../Dockerfile.frontend-users
+    ports:
+      - 4001:4001
+    depends_on:
+      frontend-shared:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+    healthcheck:
+      interval: 10s
+      timeout: 2s 
+      start_period: 15s 
+      retries: 5 
+      test: node healthcheck.js
+
+  frontend-cards:
+    build:
+      context: frontend/cards
+      dockerfile: ../../Dockerfile.frontend-cards
+    ports:
+      - 4002:4002
+    depends_on:
+      frontend-shared:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+    healthcheck:
+      interval: 10s
+      timeout: 2s 
+      start_period: 15s 
+      retries: 5 
+      test: node healthcheck.js
+
+  frontend-profile:
+    build:
+      context: frontend/profile
+      dockerfile: ../../Dockerfile.frontend-profile
+    ports:
+      - 4004:4004
+    depends_on:
+      frontend-shared:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+    healthcheck:
+      interval: 10s
+      timeout: 2s 
+      start_period: 15s 
+      retries: 5 
+      test: node healthcheck.js
+      
+  frontend-host:
+    build:
+      context: frontend/host
+      dockerfile: ../../Dockerfile.frontend-host
+    ports:
+      - 4000:4000
+    depends_on:
+      frontend-profile:
+        condition: service_healthy
+      frontend-users:
+        condition: service_healthy
+      frontend-shared:
+        condition: service_healthy
+      frontend-cards:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
